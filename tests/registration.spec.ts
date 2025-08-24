@@ -5,7 +5,8 @@ test('User can register successfully on Demo Web Shop', async ({ page }) => {
   const firstName = 'Mobik';
   const lastName = 'Demo';
   const password = 'qa2025!';
-  const email = `mobik+${Math.random()}@example.com`; // unique per run
+  const randomNumber = Math.floor(Math.random() * 40000);
+  const email = `mobik+${randomNumber}@example.com`; // unique per run
 
   await test.step('Open home page', async () => {
     await page.goto('https://demowebshop.tricentis.com/');
