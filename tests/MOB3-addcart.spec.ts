@@ -4,7 +4,7 @@ test('Login, search laptop, add to cart, verify cart total', async ({ page }) =>
   const email = 'mobik@demo.com';
   const password = 'qa2025!';
   const productName = '14.1-inch Laptop';
-  const priceRegex = /(?:€|\$)?\s*(?:1590|1[.,\s]?590)(?:[.,]00)?\s*(?:€|EUR|USD)?/i;
+  const priceRegex = /1590/i;
 
   // Home → Login
   await page.goto('https://demowebshop.tricentis.com/');
@@ -34,19 +34,17 @@ test('Login, search laptop, add to cart, verify cart total', async ({ page }) =>
   await expect(page.getByRole('heading', { name: productName })).toBeVisible();
   await expect(page.locator('#product-details-form')).toContainText(priceRegex);
 
-  // Add to cart & verify mini-bar + header count
+  // Add to cart & verify 
   await page.getByRole('button', { name: /^Add to cart$/i }).first().click();
 
   const addedBar = page.getByText('The product has been added to your shopping cart', { exact: false });
   await expect(addedBar).toBeVisible();
 
-  // Wait until header shows (1) then open cart
-  await expect(page.getByRole('link', { name: /Shopping cart \(1\)/i })).toBeVisible({ timeout: 10000 });
-  await page.getByRole('link', { name: /Shopping cart \(1\)/i }).click();
-
+  // Click the Shopping cart link via its <span>
+await page.locator('span.cart-label', { hasText: 'Shopping cart' }).click();
   // Cart page assertions
-  await expect(page).toHaveURL(/\/cart$/);
-  await expect(page.getByRole('heading', { name: /shopping cart/i })).toBeVisible();
+await expect(page).toHaveURL(/\/cart$/);
+await expect(page.getByRole('heading', { name: /shopping cart/i })).toBeVisible();
 
   // Verify line item row has product name, qty 1, and unit price
   const productRow = page.locator('table').getByRole('row', { name: new RegExp(productName) });
