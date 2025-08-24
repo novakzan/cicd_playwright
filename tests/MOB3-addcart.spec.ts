@@ -6,7 +6,7 @@ test('Login, search laptop, add to cart, verify cart total', async ({ page }) =>
   const productName = '14.1-inch Laptop';
   const priceRegex = /1590/i;
 
-  // Home → Login
+  // Homepage
   await page.goto('https://demowebshop.tricentis.com/');
   await expect(page).toHaveTitle(/Demo Web Shop/i);
   await page.getByRole('link', { name: /log in/i }).click();
@@ -22,7 +22,7 @@ test('Login, search laptop, add to cart, verify cart total', async ({ page }) =>
   await expect(page.getByRole('link', { name: email })).toBeVisible();
   await expect(page.getByRole('link', { name: /log out/i })).toBeVisible();
 
-  // Search: "laptop"
+  // Search for product
   await page.locator('#small-searchterms').fill('laptop');
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/\/search/i);
@@ -42,6 +42,7 @@ test('Login, search laptop, add to cart, verify cart total', async ({ page }) =>
 
   // Click the Shopping cart link via its <span>
 await page.locator('span.cart-label', { hasText: 'Shopping cart' }).click();
+
   // Cart page assertions
 await expect(page).toHaveURL(/\/cart$/);
 await expect(page.getByRole('heading', { name: /shopping cart/i })).toBeVisible();

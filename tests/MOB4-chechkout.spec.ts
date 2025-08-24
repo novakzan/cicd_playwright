@@ -6,7 +6,7 @@ test('Login, add laptop to cart, checkout and verify order', async ({ page }) =>
   const productName = '14.1-inch Laptop';
   const expectedPrice = '1590.00';
 
-  // --- Login ---
+  // Login
   await page.goto('https://demowebshop.tricentis.com/');
   await expect(page).toHaveTitle(/Demo Web Shop/i);
   await page.getByRole('link', { name: /log in/i }).click();
@@ -15,7 +15,7 @@ test('Login, add laptop to cart, checkout and verify order', async ({ page }) =>
   await page.getByRole('button', { name: /log in/i }).click();
   await expect(page.getByRole('link', { name: email })).toBeVisible();
 
-  // --- Search + Add to Cart ---
+  // Product Search & Add to Cart
   await page.locator('#small-searchterms').fill('laptop');
   await page.keyboard.press('Enter');
   await page.getByRole('link', { name: productName, exact: true }).click();
@@ -31,7 +31,7 @@ await page.locator('span.cart-label', { hasText: 'Shopping cart' }).click();
 await expect(page).toHaveURL(/\/cart$/);
 await expect(page.getByRole('heading', { name: /shopping cart/i })).toBeVisible();
 
-  // --- Checkout ---
+  // Checkout
   await page.locator('#termsofservice').check();
   await page.getByRole('button', { name: 'Checkout' }).click();
   await page.getByRole('heading', { name: 'Checkout' }).click();
@@ -61,14 +61,14 @@ await expect(page.getByRole('heading', { name: /shopping cart/i })).toBeVisible(
   await expect(page.getByText('You will pay by COD')).toBeVisible();
   await page.getByRole('button', { name: 'Continue' }).click();
 
-// Confirm order summary (scoped, strict-safe)
+// Confirm order summary
 await expect(page.getByRole('heading', { name: 'Confirm order' })).toBeVisible();
 
 // Check laptop
 const productCell = page.locator('td.product', { hasText: '14.1-inch Laptop' });
 await expect(productCell).toBeVisible();
 
-// quantity, unit price, shipping, total
+// Quantity, unit price, shipping, total
 await expect(page.getByRole('cell', { name: '1', exact: true })).toBeVisible();
 const subtotalCell = page.locator('span.product-subtotal', { hasText: expectedPrice });
 await expect(subtotalCell).toBeVisible();
@@ -84,7 +84,7 @@ await expect(page.getByRole('heading', { name: 'Thank you' })).toBeVisible();
 await expect(page.getByText('Your order has been')).toBeVisible();
 await page.getByRole('button', { name: 'Continue' }).click();
 
-// --- Verify in My Orders ---
+// Verify in My Orders
 await page.getByRole('link', { name: email }).click();
 await page.getByRole('link', { name: 'Orders' }).first().click();
 await page.getByRole('button', { name: 'Details' }).first().click();

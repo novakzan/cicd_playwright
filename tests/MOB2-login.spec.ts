@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('User can log in and see Account page on Demo Web Shop', async ({ page }) => {
-  // ----- Test data -----
+  // Test data
   const email = 'mobik@demo.com';
   const password = 'qa2025!';
 

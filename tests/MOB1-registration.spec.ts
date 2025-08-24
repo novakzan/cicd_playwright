@@ -42,7 +42,7 @@ test('User can register successfully on Demo Web Shop', async ({ page }) => {
   await test.step('Submit registration and verify success', async () => {
     await page.getByRole('button', { name: 'Register' }).click();
 
-    // Success message + URL often goes to /registerresult/1
+    // Success message
     const successMsg = page.getByText('Your registration completed', { exact: false });
     await expect(successMsg).toBeVisible();
     await expect(page).toHaveURL(/register/i);
