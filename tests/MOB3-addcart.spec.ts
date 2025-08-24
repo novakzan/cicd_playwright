@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from './pages/loginPage';
 
 test('Login, search laptop, add to cart, verify cart total', async ({ page }) => {
   const email = 'mobik@demo.com';
@@ -14,10 +15,10 @@ test('Login, search laptop, add to cart, verify cart total', async ({ page }) =>
   await expect(page.getByRole('heading', { name: /Welcome, Please Sign In!/i })).toBeVisible();
 
   // Login
-  await page.getByLabel('Email:').fill(email);
-  await page.getByLabel('Password:').fill(password);
-  await page.getByRole('button', { name: /log in/i }).click();
-
+  const loginPage = new LoginPage(page);
+  await loginPage.goto();
+  await loginPage.login(email, password);
+  
   // Verify logged-in header
   await expect(page.getByRole('link', { name: email })).toBeVisible();
   await expect(page.getByRole('link', { name: /log out/i })).toBeVisible();

@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from './pages/loginPage';
+
 
 test('Login, add laptop to cart, checkout and verify order', async ({ page }) => {
   const email = 'mobik@demo.com';
@@ -7,13 +9,9 @@ test('Login, add laptop to cart, checkout and verify order', async ({ page }) =>
   const expectedPrice = '1590.00';
 
   // Login
-  await page.goto('https://demowebshop.tricentis.com/');
-  await expect(page).toHaveTitle(/Demo Web Shop/i);
-  await page.getByRole('link', { name: /log in/i }).click();
-  await page.getByLabel('Email:').fill(email);
-  await page.getByLabel('Password:').fill(password);
-  await page.getByRole('button', { name: /log in/i }).click();
-  await expect(page.getByRole('link', { name: email })).toBeVisible();
+  const loginPage = new LoginPage(page);
+  await loginPage.goto();
+  await loginPage.login(email, password);
 
   // Product Search & Add to Cart
   await page.locator('#small-searchterms').fill('laptop');

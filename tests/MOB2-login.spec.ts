@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from './pages/loginPage';
 
 test('User can log in and see Account page on Demo Web Shop', async ({ page }) => {
   // Test data
@@ -18,12 +19,9 @@ test('User can log in and see Account page on Demo Web Shop', async ({ page }) =
   });
 
   await test.step('Fill login form & submit', async () => {
-    await page.getByLabel('Email:').fill(email);
-    await page.getByLabel('Password:').fill(password);
-    await page.getByRole('checkbox', { name: 'Remember me?' }).check();
-    await expect(page.getByRole('checkbox', { name: 'Remember me?' })).toBeChecked();
-
-    await page.getByRole('button', { name: 'Log in' }).click();
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login(email, password);
   });
 
   await test.step('Verify logged-in header state', async () => {
