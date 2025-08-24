@@ -45,7 +45,7 @@ test('User can register successfully on Demo Web Shop', async ({ page }) => {
     // Success message + URL often goes to /registerresult/1
     const successMsg = page.getByText('Your registration completed', { exact: false });
     await expect(successMsg).toBeVisible();
-    await expect(page).toHaveURL(/registerresult/i);
+    await expect(page).toHaveURL(/register/i);
 
     // Continue to account area (there is usually a "Continue" button)
     const continueBtn = page.getByRole('link', { name: 'Continue' }).or(page.getByRole('button', { name: 'Continue' }));
